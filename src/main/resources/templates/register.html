@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+        layout:decorator="layout">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ثبت نام</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/my-login.css}"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</head>
+<body class="my-login-page">
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-md-center h-100">
+            <div class="card-wrapper">
+                <div class="brand">
+                    <img th:src="@{/img/logo.jpg}">
+                </div>
+                <div class="card fat">
+                    <div class="card-body">
+                        <h4 class="card-title">ثبت نام</h4>
+                        <!--/*@thymesVar id="user" type="com.mousavi007.shop.Domain.User"*/-->
+                        <form th:object="${user}" th:action="@{/register/}"  method="post">
+
+
+
+
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input id="name" type="text" class="form-control" name="name" required autofocus th:field="*{name}">
+                                <span class="help-block" th:if="${#fields.hasErrors('name')}">
+                                            <ul>
+                                                <li th:each="err : ${#fields.errors('name')}" th:text="${err}"/>
+                                            </ul>
+                                        </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">Family</label>
+                                <input id="family" type="text" class="form-control" name="name" required autofocus th:field="*{family}">
+
+                                <span class="help-block" th:if="${#fields.hasErrors('family')}">
+                                            <ul>
+                                                <li th:each="err : ${#fields.errors('family')}" th:text="${err}"/>
+                                            </ul>
+                                        </span>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">E-Mail Address</label>
+                                <input id="email" type="email" class="form-control" name="email" required th:field="*{email}">
+                                <span class="help-block" th:if="${#fields.hasErrors('email')}">
+                                            <ul>
+                                                <li th:each="err : ${#fields.errors('email')}" th:text="${err}"/>
+                                            </ul>
+                                        </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input id="password" type="password" class="form-control" name="password" required data-eye th:field="*{password}">
+                                <span class="help-block" th:if="${#fields.hasErrors('password')}">
+                                            <ul>
+                                                <li th:each="err : ${#fields.errors('password')}" th:text="${err}"/>
+                                            </ul>
+                                        </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="aggree" value="1"> I agree to the Terms and Conditions
+                                </label>
+                            </div>
+
+                            <div class="form-group no-margin">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    Register
+                                </button>
+                            </div>
+                            <div class="margin-top20 text-center">
+                                Already have an account? <a href="index.html">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer">
+                    Copyright &copy; 2017 &mdash; Your Company
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" th:src="@{/js/my-login.js}"></script>
+</body>
+</html>

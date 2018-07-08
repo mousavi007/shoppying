@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layout">
+
+<head>
+    <title>Freshcery | Groceries Organic Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="/fonts/sb-bistro/sb-bistro.css" rel="stylesheet" type="text/css">
+    <link href="/fonts/font-awesome/font-awesome.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/packages/bootstrap/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/packages/o2system-ui/o2system-ui.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/packages/owl-carousel/owl-carousel.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/packages/cloudzoom/cloudzoom.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/packages/thumbelina/thumbelina.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/packages/bootstrap-touchspin/bootstrap-touchspin.css}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/theme.css}">
+</head>
+
+<body>
+<div class="page-header">
+    <!--=============== Navbar ===============-->
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
+        <div class="container">
+            <!-- Navbar Brand -->
+            <a href="index.html" class="navbar-brand">
+                <img th:src="@{/img/logo/logo.png}" alt="">
+            </a>
+
+            <!-- Toggle Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!--/*@thymesVar id="factor" type="com.mousavi007.shop.Domain.Factor"*/-->
+            <div class="collapse navbar-collapse" id="navbarcollapse">
+                <!-- Navbar Menu -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="/shop/" class="nav-link">Shop</a>
+                    </li>
+
+
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <a th:href="@{/login}"  class="nav-link">Login</a>                    </li>
+                    <li class="nav-item">
+
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <a th:href="@{/register}" class="nav-link">register</a>                    </li>
+
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}" class="nav-link">Logout</a>
+                    </li>
+
+
+
+
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                            <div class="avatar-header"><img th:src="@{/img/logo/avatar.jpg}"></div> <span sec:authentication="name">Bob</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="transaction.html">Transactions History</a>
+                            <a class="dropdown-item" href="setting.html">Profile</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-shopping-basket"></i>
+                            <span class="badge badge-primary" th:text="${factor.getFactor_items().size()}">5</span>
+                        </a>
+                        <div class="dropdown-menu shopping-cart">
+                            <ul>
+                                <li>
+                                    <div class="drop-title">سبد خرید</div>
+                                </li>
+                                <li>
+                                    <div class="shopping-cart-list" th:each=" item : ${factor.factor_items}">
+                                        <div class="media">
+                                            <img class="d-flex mr-3" th:src="@{'/shop/' + ${item.getProduct().getId()} + '/image'}" width="60">
+                                            <div class="media-body">
+                                                <h5><a href="javascript:void(0)" th:text="${item.getProduct().getProduct_name()}">Carrot</a></h5>
+                                                <p class="price">
+                                                    <span class="text-muted" th:text="${item.getProduct().getPrice()}">Rp. 700.000</span>
+                                                </p>
+                                                <p class="text-muted"th:text="'تعداد' + ' : ' + ${item.getQuantity()}">Qty: 1</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="drop-title d-flex justify-content-between">
+                                        <span>مجموع : </span>
+                                        <span class="text-primary" th:text="${#aggregates.sum(sum)}"><strong>Rp. 2000.000</strong></span>
+                                    </div>
+                                </li>
+                                <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
+                                    <a href="cart.html" class="btn btn-default">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-primary">Checkout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</div>
+<div id="page-content" class="page-content">
+    <div class="banner">
+        <div class="jumbotron jumbotron-bg text-center rounded-0" style="background-image: url('/img/bg-header.jpg');">
+            <div class="container">
+                <h1 class="pt-5">
+                    Shopping Page
+                </h1>
+                <p class="lead">
+                    Save time and leave the groceries to us.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="product-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="slider-zoom">
+                        <!--/*@thymesVar id="product" type="com.mousavi007.shop.Commands.ProductsCommands"*/-->
+                        <a th:href="@{'/shop/' + ${product.getId()} + '/image'}" class="cloud-zoom" rel="transparentImage: 'data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==', useWrapper: false, showTitle: false, zoomWidth:'700', zoomHeight:'700', adjustY:0, adjustX:10" id="cloudZoom">
+                            <img alt="Detail Zoom thumbs image" th:src="@{'/shop/' + ${product.getId()} + '/image'}" style="width: 100%;">
+                        </a>
+                    </div>
+
+
+
+                </div>
+                <div class="col-sm-6">
+                    <p>
+                        <strong>توضیحات</strong><br>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p>
+                                <strong>قیمت</strong> (/Pack)<br>
+                                <!--/*@thymesVar id="product" type="com.mousavi007.shop.Commands.ProductsCommands"*/-->
+                                <span class="price" th:text="${product.getPrice()}">Rp 100.000</span>
+
+                            </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <p>
+                                <span class="stock available">In Stock: 99</span>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="mb-1">
+                        <strong>Quantity</strong>
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <input class="vertical-spin" type="text" data-bts-button-down-class="btn btn-primary" data-bts-button-up-class="btn btn-primary" value="" name="vertical-spin">
+                        </div>
+                        <div class="col-sm-6"><span class="pt-1 d-inline-block">Pack (250 gram)</span></div>
+                    </div>
+
+                    <button class="mt-3 btn btn-primary btn-lg">
+                        <i class="fa fa-shopping-basket"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>About</h5>
+                <p>Nisi esse dolor irure dolor eiusmod ex deserunt proident cillum eu qui enim occaecat sunt aliqua anim eiusmod qui ut voluptate.</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Links</h5>
+                <ul>
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="faq.html">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">How it Works</a>
+                    </li>
+                    <li>
+                        <a href="terms.html">Terms</a>
+                    </li>
+                    <li>
+                        <a href="privacy.html">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Contact</h5>
+                <ul>
+                    <li>
+                        <a href="tel:+620892738334"><i class="fa fa-phone"></i> 08272367238</a>
+                    </li>
+                    <li>
+                        <a href="mailto:hello@domain.com"><i class="fa fa-envelope"></i> hello@domain.com</a>
+                    </li>
+                </ul>
+
+                <h5>Follow Us</h5>
+                <ul class="social">
+                    <li>
+                        <a href="javascript:void(0)" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Get Our App</h5>
+                <ul class="mb-0">
+                    <li class="download-app">
+                        <a href="#"><img th:src="@{/img/playstore.png}"></a>
+                    </li>
+                    <li style="height: 200px">
+                        <div class="mockup">
+                            <img th:src="@{/img/mockup.png}">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p class="copyright">&copy; 2018 Freshcery | Groceries Organic Store. All rights reserved.</p>
+</footer>
+
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-migrate.js}"></script>
+<script type="text/javascript" th:src="@{/packages/bootstrap/libraries/popper.js}"></script>
+<script type="text/javascript" th:src="@{/packages/bootstrap/bootstrap.js}"></script>
+<script type="text/javascript" th:src="@{/packages/o2system-ui/o2system-ui.js}"></script>
+<script type="text/javascript" th:src="@{/packages/owl-carousel/owl-carousel.js}"></script>
+<script type="text/javascript" th:src="@{/packages/cloudzoom/cloudzoom.js}"></script>
+<script type="text/javascript" th:src="@{/packages/thumbelina/thumbelina.js}"></script>
+<script type="text/javascript" th:src="@{/packages/bootstrap-touchspin/bootstrap-touchspin.js}"></script>
+<script type="text/javascript" th:src="@{/js/theme.js}"></script>
+</body>
+
+
+
+</html>
